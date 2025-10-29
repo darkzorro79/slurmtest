@@ -1,0 +1,126 @@
+System Info
+Hostname,hyperion
+OS,Linux 6.8.0-86-generic
+CPU,12th Gen Intel(R) Core(TM) i9-12900K (24 cores)
+RAM,94.0 GB
+GPU,NVIDIA GeForce RTX 5090 (31.8 GB)
+
+Benchmark Results
+Generated,2025-10-28 15:54:51
+
+Model,Prompt Eval (t/s),Response (t/s),Total (t/s),Avg Prompt Tokens,Avg Response Tokens
+deepseek-r1:8b-0528-qwen3-q8_0,3920.97,122.74,124.71,49,7131
+phi4-reasoning:14b,18078.22,101.89,111.41,280,3742
+Maoyue/AceReason-Nemotron-14B-Q4_K_M:latest,4669.97,112.71,183.36,69,2420
+qwen3:32b,1844.71,52.76,53.82,57,3229
+gpt-oss:20b,12070.32,228.76,237.11,113,3288
+alibayram/Qwen3-30B-A3B-Instruct-2507:latest,5036.06,193.77,199.26,57,4516
+
+=== deepseek-r1:8b-0528-qwen3-q8_0 ===
+Run #,Prompt,Success,Response (t/s),Response Tokens,Total Time (s),Error
+1,Explain the key differences between Kubernetes StatefulSets ...,Yes,125.24,2163,17.83,
+2,Explain the key differences between Kubernetes StatefulSets ...,Yes,127.01,1220,9.93,
+3,Explain the key differences between Kubernetes StatefulSets ...,Yes,125.89,1501,12.32,
+4,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,123.64,2411,20.09,
+5,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,123.13,2459,20.57,
+6,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,123.98,1918,15.94,
+7,You have 12 identical-looking balls. One ball has a differen...,Yes,118.60,18533,160.31,
+8,You have 12 identical-looking balls. One ball has a differen...,Yes,118.30,40960,355.08,
+9,You have 12 identical-looking balls. One ball has a differen...,Yes,118.83,16683,144.08,
+10,Design a URL shortening service (like bit.ly) that can handl...,Yes,121.78,4038,34.10,
+11,Design a URL shortening service (like bit.ly) that can handl...,Yes,120.23,5549,47.43,
+12,Design a URL shortening service (like bit.ly) that can handl...,Yes,119.41,3520,30.30,
+13,Explain why some programming languages are significantly fas...,Yes,126.01,1538,12.60,
+14,Explain why some programming languages are significantly fas...,Yes,122.89,2809,23.53,
+15,Explain why some programming languages are significantly fas...,Yes,126.17,1666,13.62,
+
+=== phi4-reasoning:14b ===
+Run #,Prompt,Success,Response (t/s),Response Tokens,Total Time (s),Error
+1,Explain the key differences between Kubernetes StatefulSets ...,Yes,103.48,2130,21.54,
+2,Explain the key differences between Kubernetes StatefulSets ...,Yes,103.22,2379,24.07,
+3,Explain the key differences between Kubernetes StatefulSets ...,Yes,103.88,1438,14.50,
+4,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,102.32,3001,30.61,
+5,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,101.06,3689,38.07,
+6,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,102.43,2957,30.13,
+7,You have 12 identical-looking balls. One ball has a differen...,Yes,98.82,7882,82.98,
+8,You have 12 identical-looking balls. One ball has a differen...,Yes,99.26,7103,74.47,
+9,You have 12 identical-looking balls. One ball has a differen...,Yes,98.61,8745,92.30,
+10,Design a URL shortening service (like bit.ly) that can handl...,Yes,101.89,3142,32.23,
+11,Design a URL shortening service (like bit.ly) that can handl...,Yes,102.29,2982,30.44,
+12,Design a URL shortening service (like bit.ly) that can handl...,Yes,103.23,2382,24.12,
+13,Explain why some programming languages are significantly fas...,Yes,103.16,2413,24.46,
+14,Explain why some programming languages are significantly fas...,Yes,103.12,2502,25.35,
+15,Explain why some programming languages are significantly fas...,Yes,101.55,3387,34.81,
+
+=== Maoyue/AceReason-Nemotron-14B-Q4_K_M:latest ===
+Run #,Prompt,Success,Response (t/s),Response Tokens,Total Time (s),Error
+1,Explain the key differences between Kubernetes StatefulSets ...,Yes,113.46,947,9.00,
+2,Explain the key differences between Kubernetes StatefulSets ...,Yes,113.09,844,8.04,
+3,Explain the key differences between Kubernetes StatefulSets ...,Yes,112.35,1212,11.64,
+4,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,112.25,1541,14.94,
+5,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,112.45,1544,14.86,
+6,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,113.26,914,8.80,
+7,You have 12 identical-looking balls. One ball has a differen...,Yes,106.64,8485,85.53,
+8,You have 12 identical-looking balls. One ball has a differen...,Yes,107.85,5502,54.28,
+9,You have 12 identical-looking balls. One ball has a differen...,Yes,107.14,6988,69.68,
+10,Design a URL shortening service (like bit.ly) that can handl...,Yes,111.33,2286,22.05,
+11,Design a URL shortening service (like bit.ly) that can handl...,Yes,111.90,1815,17.37,
+12,Design a URL shortening service (like bit.ly) that can handl...,Yes,111.45,2325,22.37,
+13,Explain why some programming languages are significantly fas...,Yes,132.02,6,0.13,
+14,Explain why some programming languages are significantly fas...,Yes,113.10,485,4.68,
+15,Explain why some programming languages are significantly fas...,Yes,112.35,1401,13.42,
+
+=== qwen3:32b ===
+Run #,Prompt,Success,Response (t/s),Response Tokens,Total Time (s),Error
+1,Explain the key differences between Kubernetes StatefulSets ...,Yes,53.41,1858,35.28,
+2,Explain the key differences between Kubernetes StatefulSets ...,Yes,53.56,1689,31.97,
+3,Explain the key differences between Kubernetes StatefulSets ...,Yes,53.16,2215,42.21,
+4,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,53.26,1854,35.29,
+5,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,53.45,1793,34.01,
+6,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,52.99,2624,50.15,
+7,You have 12 identical-looking balls. One ball has a differen...,Yes,51.61,6407,125.58,
+8,You have 12 identical-looking balls. One ball has a differen...,Yes,51.59,6832,133.98,
+9,You have 12 identical-looking balls. One ball has a differen...,Yes,51.83,5116,99.89,
+10,Design a URL shortening service (like bit.ly) that can handl...,Yes,52.17,4103,79.61,
+11,Design a URL shortening service (like bit.ly) that can handl...,Yes,52.00,4406,85.77,
+12,Design a URL shortening service (like bit.ly) that can handl...,Yes,52.51,3458,66.68,
+13,Explain why some programming languages are significantly fas...,Yes,53.49,1841,34.90,
+14,Explain why some programming languages are significantly fas...,Yes,53.21,2215,42.17,
+15,Explain why some programming languages are significantly fas...,Yes,53.20,2030,38.66,
+
+=== gpt-oss:20b ===
+Run #,Prompt,Success,Response (t/s),Response Tokens,Total Time (s),Error
+1,Explain the key differences between Kubernetes StatefulSets ...,Yes,227.49,4114,19.41,
+2,Explain the key differences between Kubernetes StatefulSets ...,Yes,228.59,3471,16.32,
+3,Explain the key differences between Kubernetes StatefulSets ...,Yes,231.47,2038,9.53,
+4,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,231.25,2179,10.17,
+5,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,229.67,2489,11.67,
+6,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,228.28,2617,12.34,
+7,You have 12 identical-looking balls. One ball has a differen...,Yes,224.67,5691,27.08,
+8,You have 12 identical-looking balls. One ball has a differen...,Yes,231.40,1873,8.78,
+9,You have 12 identical-looking balls. One ball has a differen...,Yes,227.73,3341,15.74,
+10,Design a URL shortening service (like bit.ly) that can handl...,Yes,228.99,3705,17.36,
+11,Design a URL shortening service (like bit.ly) that can handl...,Yes,226.22,4663,22.06,
+12,Design a URL shortening service (like bit.ly) that can handl...,Yes,227.55,4093,19.30,
+13,Explain why some programming languages are significantly fas...,Yes,230.15,2749,12.88,
+14,Explain why some programming languages are significantly fas...,Yes,228.03,3864,18.17,
+15,Explain why some programming languages are significantly fas...,Yes,229.86,2436,11.41,
+
+=== alibayram/Qwen3-30B-A3B-Instruct-2507:latest ===
+Run #,Prompt,Success,Response (t/s),Response Tokens,Total Time (s),Error
+1,Explain the key differences between Kubernetes StatefulSets ...,Yes,200.94,1114,5.87,
+2,Explain the key differences between Kubernetes StatefulSets ...,Yes,199.69,1337,7.04,
+3,Explain the key differences between Kubernetes StatefulSets ...,Yes,200.67,1096,5.75,
+4,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,199.05,1344,7.13,
+5,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,199.26,1298,6.85,
+6,Compare and contrast DevOps and SRE (Site Reliability Engine...,Yes,198.83,1441,7.61,
+7,You have 12 identical-looking balls. One ball has a differen...,Yes,187.38,2894,16.14,
+8,You have 12 identical-looking balls. One ball has a differen...,Yes,179.69,4587,26.56,
+9,You have 12 identical-looking balls. One ball has a differen...,Yes,170.66,40960,248.68,
+10,Design a URL shortening service (like bit.ly) that can handl...,Yes,194.29,2040,11.01,
+11,Design a URL shortening service (like bit.ly) that can handl...,Yes,191.15,2389,13.06,
+12,Design a URL shortening service (like bit.ly) that can handl...,Yes,189.40,2531,13.97,
+13,Explain why some programming languages are significantly fas...,Yes,197.94,1574,8.38,
+14,Explain why some programming languages are significantly fas...,Yes,199.56,1449,7.63,
+15,Explain why some programming languages are significantly fas...,Yes,197.98,1679,8.90,
+

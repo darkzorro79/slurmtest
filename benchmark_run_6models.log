@@ -1,0 +1,794 @@
+
+🔒 Checking for concurrent benchmark runs...
+✓ Lock file created: /tmp/ollama_benchmark.lock
+
+======================================================================
+EXTENDED LLM BENCHMARK
+======================================================================
+
+Configuration:
+  Prompts: 5
+  Runs per prompt: 3
+  Timeout: 600s
+  Output: benchmark_results_20251028_145710.md
+  Model offloading: Disabled
+
+📊 Collecting system information...
+  CPU: 12th Gen Intel(R) Core(TM) i9-12900K (24 cores)
+  RAM: 94.0 GB
+  GPU: NVIDIA GeForce RTX 5090 (31.8 GB VRAM)
+
+Models to benchmark: ['deepseek-r1:8b-0528-qwen3-q8_0', 'phi4-reasoning:14b', 'Maoyue/AceReason-Nemotron-14B-Q4_K_M:latest', 'qwen3:32b', 'gpt-oss:20b', 'alibayram/Qwen3-30B-A3B-Instruct-2507:latest']
+
+🔍 Checking for running models...
+✓ No models currently loaded - ready for clean benchmark
+
+======================================================================
+[14:57:10] Step 1/6: Benchmarking deepseek-r1:8b-0528-qwen3-q8_0 (1/6)
+======================================================================
+
+  → Testing model load for deepseek-r1:8b-0528-qwen3-q8_0...
+  ✓ Model loaded successfully
+    Response preview: ...
+
+  Running 3 runs for each of 5 prompts...
+
+  Prompt 1/5: Explain the key differences between Kubernetes StatefulSets ...
+
+  → Run #1
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: Kubernetes **Deployments** and **StatefulSets** are both controllers for managing Pods, but they serve fundamentally different purposes. Here's a breakdown of their key differences, use cases, and when...
+    ✓ Completed: 2163 tokens in 17.83s (125.24 t/s)
+
+  → Run #2
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: **Key Differences Between Kubernetes StatefulSets and Deployments**
+
+**1. State Management:**
+- **Deployments:** Stateless; pods are ephemeral. Each pod is independent, and restarts do not retain data (...
+    ✓ Completed: 1220 tokens in 9.93s (127.01 t/s)
+
+  → Run #3
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: To determine whether to use **Kubernetes Deployments** or **StatefulSets**, consider the application's statefulness, scaling requirements, and operational order. Here's a breakdown of key differences and...
+    ✓ Completed: 1501 tokens in 12.32s (125.89 t/s)
+
+  Prompt 2/5: Compare and contrast DevOps and SRE (Site Reliability Engine...
+
+  → Run #1
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: Okay, let's break down the comparison and contrast between DevOps and SRE (Site Reliability Engineering). While there's significant overlap and they often work together, they have distinct philosophies...
+    ✓ Completed: 2411 tokens in 20.09s (123.64 t/s)
+
+  → Run #2
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: Okay, let's break down DevOps and SRE. While they share many common goals and tooling, they emerged from slightly different focuses and have distinct nuances, especially concerning culture and measurement...
+    ✓ Completed: 2459 tokens in 20.57s (123.13 t/s)
+
+  → Run #3
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: Okay, let's break down DevOps and SRE (Site Reliability Engineering). While they share many common goals and tooling, they have distinct philosophies, responsibilities, and often, origins.
+
+Here's a comparison...
+    ✓ Completed: 1918 tokens in 15.94s (123.98 t/s)
+
+  Prompt 3/5: You have 12 identical-looking balls. One ball has a differen...
+
+  → Run #1
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: The minimum number of weighings required to find the heavier weight among 8 weights on a balance scale, given that one is heavier, is 2.
+
+This can be achieved with the following strategy:
+
+1. Divide the...
+    ✓ Completed: 18533 tokens in 160.31s (118.60 t/s)
+
+  → Run #2
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: 
+    ✓ Completed: 40960 tokens in 355.08s (118.30 t/s)
+
+  → Run #3
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: It is not possible to guarantee finding the defective coin with two weighings if the first weighing is 4 vs 4 for 8 coins. The first weighing of 4 vs 4 leaves 8 possible scenarios (4 coins from the heavier...
+    ✓ Completed: 16683 tokens in 144.08s (118.83 t/s)
+
+  Prompt 4/5: Design a URL shortening service (like bit.ly) that can handl...
+
+  → Run #1
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: Below is a detailed design for a URL shortening service (similar to bit.ly) capable of handling 1 billion shortened URLs and 10 million requests per day. This design focuses on scalability, reliability...
+    ✓ Completed: 4038 tokens in 34.10s (121.78 t/s)
+
+  → Run #2
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: Below, I'll outline a comprehensive design for a URL shortening service (similar to bit.ly) that can handle 1 billion shortened URLs and 10 million requests per day. This design focuses on scalability,...
+    ✓ Completed: 5549 tokens in 47.43s (120.23 t/s)
+
+  → Run #3
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: Below is a detailed design for a URL shortening service (similar to Bitly) that can handle 1 billion shortened URLs and 10 million requests per day. This design focuses on scalability, reliability, and...
+    ✓ Completed: 3520 tokens in 30.30s (119.41 t/s)
+
+  Prompt 5/5: Explain why some programming languages are significantly fas...
+
+  → Run #1
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: The performance differences between programming languages often stem from their execution models, which impact how efficiently code is translated into machine instructions. Here's a breakdown of compiled...
+    ✓ Completed: 1538 tokens in 12.60s (126.01 t/s)
+
+  → Run #2
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: Okay, let's break down why some programming languages achieve significantly faster runtime performance than others. It boils down primarily to **how the source code is translated into instructions the computer...
+    ✓ Completed: 2809 tokens in 23.53s (122.89 t/s)
+
+  → Run #3
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: The speed difference between programming languages at runtime stems from how they translate source code into machine-executable instructions, influenced by compilation vs. interpretation and optimization...
+    ✓ Completed: 1666 tokens in 13.62s (126.17 t/s)
+
+  ────────────────────────────────────────────────────────────
+  Summary for deepseek-r1:8b-0528-qwen3-q8_0:
+    Avg Response: 122.74 t/s
+    Avg Total: 124.71 t/s
+    Avg Response Tokens: 7131
+    Avg Total Time: 61.18s
+  ────────────────────────────────────────────────────────────
+
+======================================================================
+[15:12:29] Step 2/6: Benchmarking phi4-reasoning:14b (2/6)
+======================================================================
+
+  → Testing model load for phi4-reasoning:14b...
+  ✓ Model loaded successfully
+    Response preview: <think>User says "Hi". We are given instructions...
+
+  Running 3 runs for each of 5 prompts...
+
+  Prompt 1/5: Explain the key differences between Kubernetes StatefulSets ...
+
+  → Run #1
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: <think>The user is asking: "Explain the key differences between Kubernetes StatefulSets and Deployments, including when to use each and their specific use cases in production environments." We are to produce...
+    ✓ Completed: 2130 tokens in 21.54s (103.48 t/s)
+
+  → Run #2
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: <think>User request: "Explain the key differences between Kubernetes StatefulSets and Deployments, including when to use each and their specific use cases in production environments." We need explanation...
+    ✓ Completed: 2379 tokens in 24.07s (103.22 t/s)
+
+  → Run #3
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: <think>User message: "Explain the key differences between Kubernetes StatefulSets and Deployments, including when to use each and their specific use cases in production environments." So we need to produce...
+    ✓ Completed: 1438 tokens in 14.50s (103.88 t/s)
+
+  Prompt 2/5: Compare and contrast DevOps and SRE (Site Reliability Engine...
+
+  → Run #1
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: <think>User asks: "Compare and contrast DevOps and SRE (Site Reliability Engineering) roles: What are the main responsibilities, skill sets, and philosophies that distinguish these two approaches to managing...
+    ✓ Completed: 3001 tokens in 30.61s (102.32 t/s)
+
+  → Run #2
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: <think>User query: "Compare and contrast DevOps and SRE (Site Reliability Engineering) roles: What are the main responsibilities, skill sets, and philosophies that distinguish these two approaches to managing...
+    ✓ Completed: 3689 tokens in 38.07s (101.06 t/s)
+
+  → Run #3
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: <think>User asks "Compare and contrast DevOps and SRE roles: What are the main responsibilities, skill sets, and philosophies that distinguish these two approaches to managing infrastructure and reliability...
+    ✓ Completed: 2957 tokens in 30.13s (102.43 t/s)
+
+  Prompt 3/5: You have 12 identical-looking balls. One ball has a differen...
+
+  → Run #1
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: <think>We are asked: "You have 12 identical-looking balls. One ball has a different weight (either heavier or lighter than the others, but you don't know which). Using a balance scale exactly 3 times, how...
+    ✓ Completed: 7882 tokens in 82.98s (98.82 t/s)
+
+  → Run #2
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: <think>We are asked: "You have 12 identical-looking balls. One ball has a different weight (either heavier or lighter than the others, but you don't know which). Using a balance scale exactly 3 times, how...
+    ✓ Completed: 7103 tokens in 74.47s (99.26 t/s)
+
+  → Run #3
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: <think>We are asked: "You have 12 identical-looking balls. One ball has a different weight (either heavier or lighter than the others, but you don't know which). Using a balance scale exactly 3 times, how...
+    ✓ Completed: 8745 tokens in 92.30s (98.61 t/s)
+
+  Prompt 4/5: Design a URL shortening service (like bit.ly) that can handl...
+
+  → Run #1
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: <think>User is asking: "Design a URL shortening service (like bit.ly) that can handle 1 billion shortened URLs and 10 million requests per day. Explain your architecture, database design, caching strategy...
+    ✓ Completed: 3142 tokens in 32.23s (101.89 t/s)
+
+  → Run #2
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: <think>We are asked to "Design a URL shortening service (like bit.ly) that can handle 1 billion shortened URLs and 10 million requests per day. Explain your architecture, database design, caching strategy...
+    ✓ Completed: 2982 tokens in 30.44s (102.29 t/s)
+
+  → Run #3
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: <think>We are asked: "Design a URL shortening service (like bit.ly) that can handle 1 billion shortened URLs and 10 million requests per day. Explain your architecture, database design, caching strategy...
+    ✓ Completed: 2382 tokens in 24.12s (103.23 t/s)
+
+  Prompt 5/5: Explain why some programming languages are significantly fas...
+
+  → Run #1
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: <think>We have a user asking: "Explain why some programming languages are significantly faster than others at runtime. Compare compiled languages (like C++, Rust) versus interpreted languages (like Python...
+    ✓ Completed: 2413 tokens in 24.46s (103.16 t/s)
+
+  → Run #2
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: <think>The user's request: "Explain why some programming languages are significantly faster than others at runtime. Compare compiled languages (like C++, Rust) versus interpreted languages (like Python...
+    ✓ Completed: 2502 tokens in 25.35s (103.12 t/s)
+
+  → Run #3
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: <think>User question: "Explain why some programming languages are significantly faster than others at runtime. Compare compiled languages (like C++, Rust) versus interpreted languages (like Python, JavaScript...
+    ✓ Completed: 3387 tokens in 34.81s (101.55 t/s)
+
+  ────────────────────────────────────────────────────────────
+  Summary for phi4-reasoning:14b:
+    Avg Response: 101.89 t/s
+    Avg Total: 111.41 t/s
+    Avg Response Tokens: 3742
+    Avg Total Time: 38.67s
+  ────────────────────────────────────────────────────────────
+
+======================================================================
+[15:22:17] Step 3/6: Benchmarking Maoyue/AceReason-Nemotron-14B-Q4_K_M:latest (3/6)
+======================================================================
+
+  → Testing model load for Maoyue/AceReason-Nemotron-14B-Q4_K_M:latest...
+  ✓ Model loaded successfully
+    Response preview: Hello! How can I assist you today? ...
+
+  Running 3 runs for each of 5 prompts...
+
+  Prompt 1/5: Explain the key differences between Kubernetes StatefulSets ...
+
+  → Run #1
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: Kubernetes StatefulSets and Deployments are two of the most commonly used resource types in Kubernetes for managing containerized applications. They serve different purposes and have distinct characteristics...
+    ✓ Completed: 947 tokens in 9.00s (113.46 t/s)
+
+  → Run #2
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: Okay, so I need to explain the key differences between Kubernetes StatefulSets and Deployments. Hmm, let's start by recalling what I know about both.
+
+Deployments are probably for stateless apps, right...
+    ✓ Completed: 844 tokens in 8.04s (113.09 t/s)
+
+  → Run #3
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: Kubernetes StatefulSets and Deployments are both mechanisms for managing application workloads but serve different purposes. Here's a detailed comparison:
+
+### 1. **Scope of Use**
+- **Deployments**: Ideal...
+    ✓ Completed: 1212 tokens in 11.64s (112.35 t/s)
+
+  Prompt 2/5: Compare and contrast DevOps and SRE (Site Reliability Engine...
+
+  → Run #1
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: Alright, so I need to compare and contrast DevOps and SRE roles. Hmm, where do I start? I know both terms are related to managing infrastructure and reliability, but they must have some differences.
+
+First...
+    ✓ Completed: 1541 tokens in 14.94s (112.25 t/s)
+
+  → Run #2
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: Alright, so I need to compare and contrast DevOps and SRE roles. The user wants to know about their main responsibilities, skill sets, and underlying philosophies. Let me break this down.
+
+First, I should...
+    ✓ Completed: 1544 tokens in 14.86s (112.45 t/s)
+
+  → Run #3
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: Certainly! Here's a detailed comparison between DevOps and SRE roles, focusing on their main responsibilities, required skill sets, and underlying philosophies. Both are crucial in modern IT operations...
+    ✓ Completed: 914 tokens in 8.80s (113.26 t/s)
+
+  Prompt 3/5: You have 12 identical-looking balls. One ball has a differen...
+
+  → Run #1
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: Okay, so I have this problem where there are 12 identical-looking balls, and one of them is different. It could be either heavier or lighter, but I don't know which. The challenge is to figure out which...
+    ✓ Completed: 8485 tokens in 85.53s (106.64 t/s)
+
+  → Run #2
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: Okay, so I've got this problem where there are 12 balls that all look the same. One of them has a different weight—it could be either heavier or lighter, but I don't know which. The challenge is to figure...
+    ✓ Completed: 5502 tokens in 54.28s (107.85 t/s)
+
+  → Run #3
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: Okay, so I have this problem where there are 12 identical-looking balls, and one of them is different. The tricky part is that this different ball could be either heavier or lighter than the others, and...
+    ✓ Completed: 6988 tokens in 69.68s (107.14 t/s)
+
+  Prompt 4/5: Design a URL shortening service (like bit.ly) that can handl...
+
+  → Run #1
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: Alright, the user is asking about designing a URL shortening service similar to bit.ly that needs to handle 1 billion URLs and 10 million requests per day. First, I need to break down the key components...
+    ✓ Completed: 2286 tokens in 22.05s (111.33 t/s)
+
+  → Run #2
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: I'll help break down the architecture for a robust URL shortening service. I'll explain each component in detail so you can understand the reasoning behind the choices.
+
+First, let's outline the system...
+    ✓ Completed: 1815 tokens in 17.37s (111.90 t/s)
+
+  → Run #3
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: Okay, the user is asking about designing a URL shortening service similar to bit.ly that needs to handle 1 billion URLs and 10 million requests per day. Let me break this down.
+
+First, I need to understand...
+    ✓ Completed: 2325 tokens in 22.37s (111.45 t/s)
+
+  Prompt 5/5: Explain why some programming languages are significantly fas...
+
+  → Run #1
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: 
+    ✓ Completed: 6 tokens in 0.13s (132.02 t/s)
+
+  → Run #2
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: Here's an explanation of why some programming languages are faster than others and how different approaches like compiled vs. interpreted languages, JIT compilation, and trade-offs between development and...
+    ✓ Completed: 485 tokens in 4.68s (113.10 t/s)
+
+  → Run #3
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: Let me think about this... The user is asking about why some programming languages are faster than others at runtime. They specifically want a comparison between compiled and interpreted languages, mention...
+    ✓ Completed: 1401 tokens in 13.42s (112.35 t/s)
+
+  ────────────────────────────────────────────────────────────
+  Summary for Maoyue/AceReason-Nemotron-14B-Q4_K_M:latest:
+    Avg Response: 112.71 t/s
+    Avg Total: 183.36 t/s
+    Avg Response Tokens: 2420
+    Avg Total Time: 23.79s
+  ────────────────────────────────────────────────────────────
+
+======================================================================
+[15:28:24] Step 4/6: Benchmarking qwen3:32b (4/6)
+======================================================================
+
+  → Testing model load for qwen3:32b...
+  ✓ Model loaded successfully
+    Response preview: ...
+
+  Running 3 runs for each of 5 prompts...
+
+  Prompt 1/5: Explain the key differences between Kubernetes StatefulSets ...
+
+  → Run #1
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: **Key Differences Between Kubernetes StatefulSets and Deployments**
+
+1. **Pod Identity and Stability**  
+   - **Deployments**: Pods are **ephemeral and interchangeable**. They do not have unique identities...
+    ✓ Completed: 1858 tokens in 35.28s (53.41 t/s)
+
+  → Run #2
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: **Key Differences Between Kubernetes StatefulSets and Deployments**
+
+| **Feature**               | **StatefulSet**                                                                 | **Deployment**                                                                ...
+    ✓ Completed: 1689 tokens in 31.97s (53.56 t/s)
+
+  → Run #3
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: **Key Differences Between Kubernetes StatefulSets and Deployments**
+
+**1. Pod Identity and Network Policies**  
+- **Deployments**:  
+  - Pods are **ephemeral and interchangeable**. They do not have stable...
+    ✓ Completed: 2215 tokens in 42.21s (53.16 t/s)
+
+  Prompt 2/5: Compare and contrast DevOps and SRE (Site Reliability Engine...
+
+  → Run #1
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: **Comparison of DevOps and Site Reliability Engineering (SRE)**
+
+### **1. Core Focus and Philosophy**
+- **DevOps**:  
+  - **Philosophy**: A cultural and operational shift that emphasizes collaboration between...
+    ✓ Completed: 1854 tokens in 35.29s (53.26 t/s)
+
+  → Run #2
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: **Comparison of DevOps and Site Reliability Engineering (SRE)**
+
+### **1. Definitions and Origins**
+- **DevOps**: A cultural and technical movement that bridges software development (Dev) and IT operations...
+    ✓ Completed: 1793 tokens in 34.01s (53.45 t/s)
+
+  → Run #3
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: **DevOps vs. SRE: A Comparative Analysis**
+
+**1. Introduction**  
+DevOps and Site Reliability Engineering (SRE) are both methodologies aimed at improving software delivery and system reliability, but they...
+    ✓ Completed: 2624 tokens in 50.15s (52.99 t/s)
+
+  Prompt 3/5: You have 12 identical-looking balls. One ball has a differen...
+
+  → Run #1
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: To determine the odd coin (which is either heavier or lighter than the others) among 12 coins using a balance scale, we can use a **three-weighing strategy** that systematically narrows down the possibilities...
+    ✓ Completed: 6407 tokens in 125.58s (51.61 t/s)
+
+  → Run #2
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: To determine the counterfeit coin (which is either heavier or lighter than the others) among 12 coins using a balance scale, **you can identify it in exactly 3 weighings**. The key is to divide and conquer...
+    ✓ Completed: 6832 tokens in 133.98s (51.59 t/s)
+
+  → Run #3
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: To solve the classic problem of identifying the odd ball among 12 balls (one of which is slightly heavier or lighter than the others) using a balance scale, the goal is to determine **which ball is different...
+    ✓ Completed: 5116 tokens in 99.89s (51.83 t/s)
+
+  Prompt 4/5: Design a URL shortening service (like bit.ly) that can handl...
+
+  → Run #1
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: ### URL Shortening Service Architecture
+
+---
+
+#### **Overview**
+A scalable, high-availability URL shortening service designed to handle **1 billion shortened URLs** and **10 million daily requests**. The...
+    ✓ Completed: 4103 tokens in 79.61s (52.17 t/s)
+
+  → Run #2
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: ### **URL Shortening Service Architecture Design**
+
+---
+
+#### **1. Core Requirements**
+- **Storage**: 1 billion shortened URLs.
+- **Throughput**: 10 million daily requests (~115 RPS on average).
+- **High...
+    ✓ Completed: 4406 tokens in 85.77s (52.00 t/s)
+
+  → Run #3
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: ### **URL Shortening Service Architecture**
+
+#### **1. Overview**
+The service is designed to handle **1 billion URLs** and **10 million daily requests** with high availability, scalability, and reliability...
+    ✓ Completed: 3458 tokens in 66.68s (52.51 t/s)
+
+  Prompt 5/5: Explain why some programming languages are significantly fas...
+
+  → Run #1
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: The runtime performance of programming languages varies significantly due to differences in their compilation models, execution strategies, and design trade-offs. Below is a structured explanation of the...
+    ✓ Completed: 1841 tokens in 34.90s (53.49 t/s)
+
+  → Run #2
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: Programming languages vary significantly in runtime performance due to differences in how they are processed, optimized, and executed. Here's a structured explanation of why some languages are faster than...
+    ✓ Completed: 2215 tokens in 42.17s (53.21 t/s)
+
+  → Run #3
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: Programming languages vary significantly in runtime performance due to differences in their design, compilation strategies, and trade-offs between execution speed and development efficiency. Here's a structured...
+    ✓ Completed: 2030 tokens in 38.66s (53.20 t/s)
+
+  ────────────────────────────────────────────────────────────
+  Summary for qwen3:32b:
+    Avg Response: 52.76 t/s
+    Avg Total: 53.82 t/s
+    Avg Response Tokens: 3229
+    Avg Total Time: 62.41s
+  ────────────────────────────────────────────────────────────
+
+======================================================================
+[15:44:07] Step 5/6: Benchmarking gpt-oss:20b (5/6)
+======================================================================
+
+  → Testing model load for gpt-oss:20b...
+  ✓ Model loaded successfully
+    Response preview: ...
+
+  Running 3 runs for each of 5 prompts...
+
+  Prompt 1/5: Explain the key differences between Kubernetes StatefulSets ...
+
+  → Run #1
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: ## Kubernetes StatefulSet vs. Deployment  
+*(the “right tool for the right job” in a production cluster)*  
+
+| Feature | Deployment | StatefulSet |
+|---------|------------|-------------|
+| **Typical use...
+    ✓ Completed: 4114 tokens in 19.41s (227.49 t/s)
+
+  → Run #2
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: ## Overview
+
+| Feature | **Deployment** | **StatefulSet** |
+|---------|----------------|-----------------|
+| **Purpose** | Manage stateless workloads that can be horizontally scaled, rolled‑out, and replaced...
+    ✓ Completed: 3471 tokens in 16.32s (228.59 t/s)
+
+  → Run #3
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: ## Kubernetes StatefulSet vs. Deployment
+
+| Feature | **StatefulSet** | **Deployment** |
+|---------|-----------------|----------------|
+| **Primary purpose** | *Stateful workloads* that need stable, unique...
+    ✓ Completed: 2038 tokens in 9.53s (231.47 t/s)
+
+  Prompt 2/5: Compare and contrast DevOps and SRE (Site Reliability Engine...
+
+  → Run #1
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: ## DevOps vs. SRE – A Structured Comparison
+
+| Aspect | DevOps (Development + Operations) | SRE (Site Reliability Engineering) |
+|--------|-----------------------------------|--------------------------------...
+    ✓ Completed: 2179 tokens in 10.17s (231.25 t/s)
+
+  → Run #2
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: ## DevOps vs. SRE – A Side‑by‑Side View
+
+| Dimension | DevOps | Site Reliability Engineering (SRE) |
+|-----------|--------|-------------------------------------|
+| **Origin** | Cultural movement born out...
+    ✓ Completed: 2489 tokens in 11.67s (229.67 t/s)
+
+  → Run #3
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: ## DevOps vs. Site‑Reliability Engineering (SRE)
+
+| Aspect | DevOps | Site‑Reliability Engineering (SRE) |
+|--------|--------|-----------------------------------|
+| **Origin** | Cultural movement (late...
+    ✓ Completed: 2617 tokens in 12.34s (228.28 t/s)
+
+  Prompt 3/5: You have 12 identical-looking balls. One ball has a differen...
+
+  → Run #1
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: **Step 0 – Give every ball a name**  
+Number the balls 1 … 12 (you could also use A‑L – the exact letters are irrelevant).  
+All of them look identical; the only thing we can do is compare groups of them...
+    ✓ Completed: 5691 tokens in 27.08s (224.67 t/s)
+
+  → Run #2
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: **Goal** – In three weighings on a balance scale we must
+
+1. find the one “odd” ball among 12 identical‑looking balls,  
+2. decide whether it is *heavier* or *lighter* than the normal balls.
+
+The classic...
+    ✓ Completed: 1873 tokens in 8.78s (231.40 t/s)
+
+  → Run #3
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: **Goal** – In exactly three weighings tell us
+
+* which of the 12 balls is the odd one,
+* whether it is *heavier* or *lighter* than the other 11.
+
+The classical solution works because  
+
+```
+3 weighings...
+    ✓ Completed: 3341 tokens in 15.74s (227.73 t/s)
+
+  Prompt 4/5: Design a URL shortening service (like bit.ly) that can handl...
+
+  → Run #1
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: ## 1. Overview
+
+| Service | What it does | Scale |
+|---------|--------------|-------|
+| **URL‑shortening API** | Accepts a long URL, returns a 6‑7‑char short code. | Up to 10 M RPS (≈115 RPS) |
+| **Redirect...
+    ✓ Completed: 3705 tokens in 17.36s (228.99 t/s)
+
+  → Run #2
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: ## 1.  High‑level Architecture
+
+```
++-----------------+      HTTPS/HTTP
+|  Clients / Users|
++--------+--------+
+         |
+         v
++--------+--------+      +-------------------+
+|  Global LB /     |...
+    ✓ Completed: 4663 tokens in 22.06s (226.22 t/s)
+
+  → Run #3
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: ## 1.  High‑level picture
+
+```
+┌──────────────────────┐
+│      User (Web/Mobile)│
+└─────────▲─────────────┘
+          │ HTTPS
+          ▼
+ ┌──────────────────────┐
+ │    Global Load Balancer  (ELB/Cloud...
+    ✓ Completed: 4093 tokens in 19.30s (227.55 t/s)
+
+  Prompt 5/5: Explain why some programming languages are significantly fas...
+
+  → Run #1
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: ### 1. What actually determines “runtime speed”?
+
+| Aspect | How it affects speed | Typical in… |
+|--------|----------------------|------------|
+| **How the code is turned into something the CPU understands...
+    ✓ Completed: 2749 tokens in 12.88s (230.15 t/s)
+
+  → Run #2
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: ## Why Some Languages Run Faster Than Others
+
+| Category | Typical Runtime Path | What It Means for Speed | Typical Examples |
+|----------|----------------------|------------------------|----------------...
+    ✓ Completed: 3864 tokens in 18.17s (228.03 t/s)
+
+  → Run #3
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: ### 1.  What actually drives a program’s runtime speed?
+
+| Factor | Effect on speed | Typical in |
+|--------|-----------------|------------|
+| **Targeted machine code** | Direct execution by the CPU. |...
+    ✓ Completed: 2436 tokens in 11.41s (229.86 t/s)
+
+  ────────────────────────────────────────────────────────────
+  Summary for gpt-oss:20b:
+    Avg Response: 228.76 t/s
+    Avg Total: 237.11 t/s
+    Avg Response Tokens: 3288
+    Avg Total Time: 15.48s
+  ────────────────────────────────────────────────────────────
+
+======================================================================
+[15:48:04] Step 6/6: Benchmarking alibayram/Qwen3-30B-A3B-Instruct-2507:latest (6/6)
+======================================================================
+
+  → Testing model load for alibayram/Qwen3-30B-A3B-Instruct-2507:latest...
+  ✓ Model loaded successfully
+    Response preview: Hello! However, you might be mistaken....
+
+  Running 3 runs for each of 5 prompts...
+
+  Prompt 1/5: Explain the key differences between Kubernetes StatefulSets ...
+
+  → Run #1
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: Kubernetes **Deployments** and **StatefulSets** are both controllers used to manage the lifecycle of pods, but they serve different purposes and are suited to different types of workloads. Understanding...
+    ✓ Completed: 1114 tokens in 5.87s (200.94 t/s)
+
+  → Run #2
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: Kubernetes **Deployments** and **StatefulSets** are two of the most commonly used workload controllers for managing application pods. While both manage replicas of containers, they differ significantly...
+    ✓ Completed: 1337 tokens in 7.04s (199.69 t/s)
+
+  → Run #3
+    Prompt: Explain the key differences between Kubernetes StatefulSets ...
+    Response: Kubernetes **StatefulSets** and **Deployments** are both controllers used to manage the lifecycle of pods, but they serve fundamentally different purposes and are suited for different types of applications...
+    ✓ Completed: 1096 tokens in 5.75s (200.67 t/s)
+
+  Prompt 2/5: Compare and contrast DevOps and SRE (Site Reliability Engine...
+
+  → Run #1
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: DevOps and Site Reliability Engineering (SRE) are both modern approaches to managing software delivery and infrastructure reliability, often overlapping in practice but differing in philosophy, focus, and...
+    ✓ Completed: 1344 tokens in 7.13s (199.05 t/s)
+
+  → Run #2
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: DevOps and Site Reliability Engineering (SRE) are closely related disciplines that aim to improve the reliability, scalability, and efficiency of software systems. While they share many goals—such as reducing...
+    ✓ Completed: 1298 tokens in 6.85s (199.26 t/s)
+
+  → Run #3
+    Prompt: Compare and contrast DevOps and SRE (Site Reliability Engine...
+    Response: DevOps and Site Reliability Engineering (SRE) are both modern engineering practices aimed at improving the reliability, scalability, and efficiency of software systems, especially in cloud-native and large...
+    ✓ Completed: 1441 tokens in 7.61s (198.83 t/s)
+
+  Prompt 3/5: You have 12 identical-looking balls. One ball has a differen...
+
+  → Run #1
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: This is a classic logic puzzle known as the **12-ball problem**. You have 12 identical-looking balls, one of which is either **heavier or lighter** than the others (but you don’t know which), and your goal...
+    ✓ Completed: 2894 tokens in 16.14s (187.38 t/s)
+
+  → Run #2
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: This is a classic logic puzzle: **Finding the odd ball among 12 identical-looking balls using a balance scale in just 3 weighings**, and determining **whether it is heavier or lighter**.
+
+Let’s solve it...
+    ✓ Completed: 4587 tokens in 26.56s (179.69 t/s)
+
+  → Run #3
+    Prompt: You have 12 identical-looking balls. One ball has a differen...
+    Response: This is a classic logic puzzle known as the **12-ball problem**. The goal is to identify the **one odd ball** (which is either heavier or lighter) among 12 identical-looking balls using a **balance scale...
+    ✓ Completed: 40960 tokens in 248.68s (170.66 t/s)
+
+  Prompt 4/5: Design a URL shortening service (like bit.ly) that can handl...
+
+  → Run #1
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: Designing a URL shortening service capable of handling **1 billion shortened URLs** and **10 million requests per day** requires a robust, scalable, and highly available architecture. Below is a comprehensive...
+    ✓ Completed: 2040 tokens in 11.01s (194.29 t/s)
+
+  → Run #2
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: Designing a URL shortening service capable of handling **1 billion shortened URLs** and **10 million requests per day** requires a highly scalable, reliable, and performant architecture. Below is a comprehensive...
+    ✓ Completed: 2389 tokens in 13.06s (191.15 t/s)
+
+  → Run #3
+    Prompt: Design a URL shortening service (like bit.ly) that can handl...
+    Response: Designing a **URL shortening service** capable of handling **1 billion shortened URLs** and **10 million requests per day** requires a highly scalable, reliable, and performant architecture. Below is a...
+    ✓ Completed: 2531 tokens in 13.97s (189.40 t/s)
+
+  Prompt 5/5: Explain why some programming languages are significantly fas...
+
+  → Run #1
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: The performance differences between programming languages at runtime stem from how code is translated into machine instructions and how execution is managed. Let's break down the core reasons why some languages...
+    ✓ Completed: 1574 tokens in 8.38s (197.94 t/s)
+
+  → Run #2
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: Great question! The performance differences between programming languages at runtime stem from fundamental design choices in how code is translated into machine instructions and executed. Let’s break this...
+    ✓ Completed: 1449 tokens in 7.63s (199.56 t/s)
+
+  → Run #3
+    Prompt: Explain why some programming languages are significantly fas...
+    Response: The performance differences between programming languages at runtime stem from **how code is translated into machine instructions** and **how much runtime overhead is involved**. Let's break down the key...
+    ✓ Completed: 1679 tokens in 8.90s (197.98 t/s)
+
+  ────────────────────────────────────────────────────────────
+  Summary for alibayram/Qwen3-30B-A3B-Instruct-2507:latest:
+    Avg Response: 193.77 t/s
+    Avg Total: 199.26 t/s
+    Avg Response Tokens: 4516
+    Avg Total Time: 26.31s
+  ────────────────────────────────────────────────────────────
+
+======================================================================
+
+======================================================================
+[15:54:51] Step 0/0: Saving results
+======================================================================
+
+
+✓ Results saved to: benchmark_results_20251028_145710.md
+✓ JSON results saved to: benchmark_results_final.json
+✓ CSV results saved to: benchmark_results_final.csv
+
+======================================================================
+BENCHMARK COMPLETE
+======================================================================
+
+Benchmarked 6 models
+Results saved to: benchmark_results_20251028_145710.md
+JSON export: benchmark_results_final.json
+CSV export: benchmark_results_final.csv
+
