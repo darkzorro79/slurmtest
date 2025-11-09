@@ -1,0 +1,289 @@
+{
+  "name": "Webhook homework1-past2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "github/push-main",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1040,
+        -32
+      ],
+      "id": "bc94b10d-b12b-44fc-9f92-caf25fa364fb",
+      "name": "Webhook",
+      "webhookId": "520028be-70ec-4052-8e50-ee5abf0d74d5",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "action": "hmac",
+        "binaryData": true,
+        "type": "SHA256",
+        "dataPropertyName": "computedSig",
+        "secret": "90651329b4a1d479a8670602063e83aa7d1eac9b90c72fa6b28145267b1fe07a"
+      },
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        0,
+        336
+      ],
+      "id": "8304ce18-c1ae-4835-b9a3-cf824bbfdbec",
+      "name": "Crypto"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3fd2cae6-e95d-49ac-8d10-ddda13e52dae",
+              "leftValue": "={{ $json.body.ref }}",
+              "rightValue": "refs/heads/main",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -832,
+        -32
+      ],
+      "id": "3639f865-4aa9-44ec-8744-af4454294b08",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.github.com/repos/{{$json.body.repository.full_name}}/commits/{{$json.body.after}}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -528,
+        -160
+      ],
+      "id": "17124ae7-2fb9-4c05-928e-e1f33640bea6",
+      "name": "GitHub API"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5f28a29e-827d-4ee1-a90b-595db7d96393",
+              "name": "filesList",
+              "value": "={{$json.files.map(f => `• ${f.status} ${f.filename}`).join('\\n')}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -336,
+        -160
+      ],
+      "id": "6bc63698-31b9-4fde-96bf-dc1da18934cd",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Задача: кратко и точно объяснить, что изменилось в коммите.\n\nРепозиторий: {{ $('Webhook').item.json.body.repository.name }}\nАвтор: {{ $('Webhook').item.json.body.repository.full_name }}\nSHA: {{ $('Webhook').item.json.body.after.slice() }}\nСообщение коммита: {{ $('Webhook').item.json.body.commits[0].message }}\n\nСписок измененёных файлов: \n{{ $json.filesList }}\n\nДифы по файлам (если есть):\n\n{{\n  ( $node[\"GitHub API\"].json.body?.files || $node[\"GitHub API\"].json.files || [] )\n    .map(f => `• ${f.status} ${f.filename} (+${f.additions}/-${f.deletions})`)\n    .join('\\n')\n}}\n\n{{\n(() => {\n  const files =\n    $node[\"GitHub API\"].json.body?.files\n    || $node[\"GitHub API\"].json.files\n    || [];\n\n  const MAX_FILES = 10;    // сколько файлов максимум показывать\n  const MAX_PATCH = 2000;  // сколько символов патча максимум на файл\n\n  return files\n    .slice(0, MAX_FILES)\n    .filter(f => typeof f.patch === 'string' && f.patch.length)\n    .map(f => {\n      let p = f.patch;\n      if (p.length > MAX_PATCH) p = p.slice(0, MAX_PATCH) + '\\n…(truncated)';\n      return `Файл: ${f.filename}\\n\\`\\`\\`diff\\n${p}\\n\\`\\`\\``;\n    })\n    .join('\\n\\n');\n})()\n}}\n\nТребования к ответу:\n- 3–6 буллетов по ключевым изменениям;\n- упомяни новые/удалённые функции, изменённые API/CLI интерфейсы, конфиги и миграции;\n- отметь потенциальные breaking changes;\n- если диф отсутствует (binary/слишком большой) — скажи об этом и работай по имени файла/сообщению коммита.\n- возвращать текст строго на русском языке.\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -176,
+        -128
+      ],
+      "id": "878eb3bb-1d10-4dfc-a74e-993eb847c210",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "gpt-oss:20b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        80
+      ],
+      "id": "9571d469-9599-40fa-8f14-26e4631153a1",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "qzqL9M6pVPu9JDRT",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "207708913",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        176,
+        -128
+      ],
+      "id": "59240fd9-733d-4b8d-a15e-4df54fc99808",
+      "name": "Send a text message1",
+      "webhookId": "a8ecd57a-1de6-4177-abaa-60949650b6f9",
+      "credentials": {
+        "telegramApi": {
+          "id": "yEZ29UQTCT7zSQyt",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "207708913",
+        "text": "=Новый коммит в main: Автор: {{ $json.body.head_commit.author.username }} SHA: {{$json.body.after.slice(0,7)}} Сообщение: {{$json.body.head_commit.message}}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -480,
+        0
+      ],
+      "id": "0affd61f-ea69-4824-8752-34d7e36cc87a",
+      "name": "Send a text message of commit",
+      "webhookId": "1537aaad-7e98-4e4c-bda8-e97c6ae0b705",
+      "credentials": {
+        "telegramApi": {
+          "id": "yEZ29UQTCT7zSQyt",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "GitHub API",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a text message of commit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub API": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b69a1e3a-591e-4c6c-8f22-1d796ee39f12",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f964065ac9ea69072d01b5e91d627f6f04ed8f12c8354d0bb221932e3f210f1e"
+  },
+  "id": "rw02HhHrwrV8dber",
+  "tags": []
+}

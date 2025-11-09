@@ -1,0 +1,279 @@
+{
+  "name": "Slurm homework 5.2 - 4",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.prompt }}",
+        "options": {
+          "systemMessage": "You are Frodo, a Junior DevOps/SRE. Your only job is to check if http://kropalik.ru:8090/ is up. When asked if the website is up, follow these steps to check its status: \n\n1. Access the website using the provided status HTTP tool.\n2. The website is considered up and operational only if the response contains the exact HTML content: SYSTEM ONLINE.\n3. If the website is not up via the HTTP tool, use the \"DOCKER TOOL\" to check if the \"nginx-website-1\" container is running by executing the command docker ps.\n4. If the container is not running, check the exit code using the command docker inspect nginx-website-1--format='{{.State.ExitCode}}'.\n5. Retrieve the recent logs using the command docker logs nginx-website-1 --tail 10.\n6. Report the website's status as either \"up 🟢\" or \"down 🔴\". If the website is down (e.g., due to a connection error, timeout, or incorrect container content), include an explanation based on the error (e.g., connection error, timeout, incorrect container content, container not running, exit code, Docker tool findings, and relevant log details indicating why the container failed)."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -1296,
+        32
+      ],
+      "id": "9da82a23-9cdd-4422-9f79-2320ddf13e45",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "qwen3:32b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        -1440,
+        240
+      ],
+      "id": "e6941d7d-aad0-40f9-a4e6-7f85bf2f24ab",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "qzqL9M6pVPu9JDRT",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.chatid }}",
+        "contextWindowLength": 50
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -1296,
+        240
+      ],
+      "id": "45393d3a-d33e-47ba-a9f4-38b5e3189781",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "url": "http://kropalik.ru:8090",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        -832,
+        224
+      ],
+      "id": "3d392531-3aae-42b8-a5fa-0e4986dd74ef",
+      "name": "Visit Website",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Q7WECaaLFsY4RWno",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Q7WECaaLFsY4RWno",
+          "cachedResultName": "SSH_n8n_server"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "command": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('command', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "command"
+          ],
+          "schema": [
+            {
+              "id": "command",
+              "displayName": "command",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -1056,
+        256
+      ],
+      "id": "e4e70d5c-e72a-486c-ab78-deb805fc04d3",
+      "name": "DOCKER TOOL"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1888,
+        48
+      ],
+      "id": "31ad5109-96c9-4ab3-a9b6-f9c11060708f",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "826c5bdc-2058-4f82-9388-6fa2b4d45b41",
+              "name": "prompt",
+              "value": "Check if the website is up.",
+              "type": "string"
+            },
+            {
+              "id": "86af7314-4c5b-4b7a-af38-3e72185d5cc2",
+              "name": "chatid",
+              "value": "=frodo{{ $execution.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "dotNotation": true
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1680,
+        48
+      ],
+      "id": "974f1613-fe11-4c6d-8168-d5722890d034",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "chatId": "207708913",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -784,
+        -32
+      ],
+      "id": "d5bab1d2-0bfd-4747-a47c-dfd7c0306a90",
+      "name": "Send a text message",
+      "webhookId": "bc96025f-b6c4-425c-b611-2628473f2f23",
+      "credentials": {
+        "telegramApi": {
+          "id": "yEZ29UQTCT7zSQyt",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Visit Website": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DOCKER TOOL": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2dd77fdd-c3c9-4fd9-b715-1cd9aa35aeac",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f964065ac9ea69072d01b5e91d627f6f04ed8f12c8354d0bb221932e3f210f1e"
+  },
+  "id": "e8vrdoaVFG7cBuRA",
+  "tags": []
+}
