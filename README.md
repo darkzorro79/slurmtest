@@ -1,4 +1,4 @@
 # slurmtest
 homework
 
-test deploy
+test deploy +1
