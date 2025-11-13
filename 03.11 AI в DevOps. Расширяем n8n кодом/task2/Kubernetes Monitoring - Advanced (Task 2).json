@@ -1,0 +1,579 @@
+{
+  "name": "Kubernetes Monitoring - Advanced (Task 2)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "id": "766220e0-c61e-4588-ab36-9a16fc9b75a4",
+      "name": "Cron Trigger - Every 5 min",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -2096,
+        -112
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://testn8n.otservice.ru",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "20fb73d9-7cde-46de-9dae-867c19c6e10d",
+      "name": "Check Website",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -1696,
+        -112
+      ],
+      "alwaysOutputData": false,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.data }}",
+              "operation": "notContains",
+              "value2": "SYSTEM ONLINE"
+            }
+          ]
+        }
+      },
+      "id": "05c6e11f-7d8d-4e1b-9c1f-b4d9bb3ed8b5",
+      "name": "Is Site Down?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -1456,
+        -112
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://10.190.46.115:6443/api/v1/namespaces/monitoring-demo/pods",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "labelSelector",
+              "value": "app.kubernetes.io/name=system-online"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6Imx1cS1qX1VWOThTaDRvcFpCY21hWWY2Q3luLWlnSExFNU1GN2dNNlhmRHcifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJtb25pdG9yaW5nLWRlbW8iLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlY3JldC5uYW1lIjoibjhuLW1vbml0b3ItdG9rZW4iLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoibjhuLW1vbml0b3IiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiIxNDFkMDUwYy1iY2MxLTRmMTEtOTZiNy05OGFlMjNjODRiODgiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6bW9uaXRvcmluZy1kZW1vOm44bi1tb25pdG9yIn0.FyN_CS6qDYPSc3m23JzjF2gy-raeVv7IJ1I4sRTFWl6IQ77RXThIcSigOY6-XBgydLtxHxWW_sAFbyayKukyPbH4MIgPHzPCKoOp1lBwA7x8J-EH9qcavDFWJdA0eRZrU_-gNJnrCof8_kzFpmPXJFtEluY6d7INdffKjdBFAimF3dkQh4I8ge8Ud08VdqklbQHFTuJq0vhYywue2QnV0yb4_sE5T8KMraIgfjyjYJEIfzEH0dZ11IgHHJg35rPXnoESV-Afq7USkmxyi8FIQrngjNLrNFFBLjeI05BJyov5qVt8uot0xu2zKI8qgoaTZ_48RUkHZsm2vNNDwIaFgA"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -368,
+        -432
+      ],
+      "id": "5abbb69d-84aa-494d-a94e-a1079b13f900",
+      "name": "Get Pod Status"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6aa3369d-8f06-499e-9dc9-9e11abb0361e",
+              "name": "aiPrompt",
+              "value": "={{ $json.aiPrompt }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        336,
+        -208
+      ],
+      "id": "721fce0e-6cb8-45d1-8fe4-1f7e49886e71",
+      "name": "Prepare AI Prompt"
+    },
+    {
+      "parameters": {
+        "modelId": "gpt-4o-mini",
+        "messages": {
+          "values": [
+            {
+              "content": "={{ $json.aiPrompt }}"
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 500,
+          "temperature": 0.3
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        -464
+      ],
+      "id": "f6aeee21-3c33-40c1-ab61-b2563f594a1f",
+      "name": "AI Analysis (OpenAI)",
+      "notes": "Используйте ваши credentials для OpenAI или другого LLM провайдера"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Формируем сообщение для сводного отчета по ВСЕМ подам\nconst items = $input.all();\nconst item = items[0].json;\n\nconsole.log('=== Format Message DEBUG ===');\nconsole.log('Item keys:', Object.keys(item));\n\n// Получаем ПРАВИЛЬНОЕ количество подов и ошибок\n// Берем из предыдущих нод напрямую!\nlet totalPods = 0;\nlet totalErrors = 0;\n\ntry {\n  // Количество проблемных подов из ноды \"Is Pod Unhealthy?1\"\n  totalPods = $('Is Pod Unhealthy?1').first().json.totalUnhealthy || 0;\n  console.log('Total unhealthy pods:', totalPods);\n  \n  // Общее количество ошибок - суммируем из всех результатов анализа\n  const allAnalysis = $('Code in JavaScript').all();\n  totalErrors = allAnalysis.reduce((sum, item) => sum + (item.json.errorCount || 0), 0);\n  console.log('Total errors from all pods:', totalErrors);\n  \n} catch (e) {\n  console.log('Could not get stats from previous nodes:', e.message);\n  \n  // Fallback - пытаемся из текущего item\n  totalPods = item.totalPods || 0;\n  totalErrors = item.totalErrors || 0;\n}\n\nconsole.log('Final stats - Pods:', totalPods, 'Errors:', totalErrors);\n\n// УНИВЕРСАЛЬНЫЙ парсинг AI ответа\nlet aiResponse = 'AI анализ недоступен';\n\nif (item.output) {\n  aiResponse = item.output;\n  console.log('Got AI response from: output');\n} else if (item.text) {\n  aiResponse = item.text;\n  console.log('Got AI response from: text');\n} else if (item.message?.content) {\n  aiResponse = item.message.content;\n  console.log('Got AI response from: message.content');\n} else if (item.choices?.[0]?.message?.content) {\n  aiResponse = item.choices[0].message.content;\n  console.log('Got AI response from: choices[0].message.content');\n} else if (item.response) {\n  aiResponse = item.response;\n  console.log('Got AI response from: response');\n}\n\nconsole.log('AI Response length:', aiResponse.length);\n\n// ОЧИСТКА AI ответа для Telegram Markdown\nlet cleanAiResponse = aiResponse;\n\n// 1. Убираем markdown заголовки ### (заменяем на жирный текст)\ncleanAiResponse = cleanAiResponse.replace(/^###\\s+(.+)$/gm, '*$1*');\n\n// 2. Убираем горизонтальные линии\ncleanAiResponse = cleanAiResponse.replace(/^---+$/gm, '');\n\n// 3. Экранируем специальные символы для Telegram\ncleanAiResponse = cleanAiResponse.replace(/[<>]/g, '');\n\n// 4. Убираем лишние переводы строк\ncleanAiResponse = cleanAiResponse.replace(/\\n{3,}/g, '\\n\\n');\n\n// 5. Ограничиваем длину (Telegram лимит ~4000 символов)\nconst maxLength = 3000;\nif (cleanAiResponse.length > maxLength) {\n  cleanAiResponse = cleanAiResponse.substring(0, maxLength);\n  // Обрезаем до последнего полного предложения или абзаца\n  const lastPeriod = cleanAiResponse.lastIndexOf('.');\n  const lastNewline = cleanAiResponse.lastIndexOf('\\n');\n  const cutPoint = Math.max(lastPeriod, lastNewline);\n  if (cutPoint > maxLength - 500) {\n    cleanAiResponse = cleanAiResponse.substring(0, cutPoint + 1);\n  }\n  cleanAiResponse += '\\n\\n_[Отчет сокращен]_';\n}\n\nconsole.log('Cleaned AI Response length:', cleanAiResponse.length);\n\n// Формируем сводное сообщение\nlet message = `🚨 *КРИТИЧЕСКАЯ СИТУАЦИЯ В КЛАСТЕРЕ*\\n\\n`;\nmessage += `📊 *Проблемных подов:* ${totalPods}\\n`;\nmessage += `🐛 *Всего ошибок:* ${totalErrors}\\n`;\nmessage += `🕐 *Время:* ${new Date().toLocaleString('ru-RU', {timeZone: 'Europe/Moscow'})}\\n`;\nmessage += `⚠️ *Namespace:* monitoring-demo\\n\\n`;\n\nmessage += `📋 *AI Анализ и План Действий:*\\n\\n`;\nmessage += cleanAiResponse;\n\nconsole.log('Final message length:', message.length);\n\nreturn [{\n  json: {\n    message: message,\n    totalPods: totalPods,\n    totalErrors: totalErrors,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "72844c7d-8e46-4d13-9862-1bfdbf6bdc9b",
+      "name": "Format Telegram Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        912,
+        -224
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "207708913",
+        "text": "={{ $json.message }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "disable_web_page_preview": true,
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "0b723e02-cddf-402a-806c-1a1df7b3958d",
+      "name": "Send Telegram Alert",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        1152,
+        -224
+      ],
+      "webhookId": "d0a9597e-5c3d-40d7-9bb7-b53e332f2f66",
+      "credentials": {
+        "telegramApi": {
+          "id": "yEZ29UQTCT7zSQyt",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "2faf0ee4-67ae-4255-a6dc-71a1da6e1642",
+      "name": "Site is Healthy",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -1216,
+        16
+      ],
+      "notes": "Сайт работает нормально"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "execution-id",
+              "name": "executionId",
+              "value": "=frodo{{ $execution.id }}",
+              "type": "string"
+            },
+            {
+              "id": "7ac7219b-f94d-4c1d-92b0-b521264046d7",
+              "name": "prompt",
+              "value": "Check if the website is up. Return ONLY JSON with fields: website_up (boolean) and message (string).",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1904,
+        -112
+      ],
+      "id": "1447fa52-4c68-4404-adc2-d65f299c5ef0",
+      "name": "Init Fields"
+    },
+    {
+      "parameters": {
+        "operation": "list",
+        "namespace": "monitoring-demo"
+      },
+      "type": "@hualvwang/n8n-nodes-k8s.kubernetes",
+      "typeVersion": 1,
+      "position": [
+        -1200,
+        -208
+      ],
+      "id": "a8589a07-d64b-4093-8409-aca7a13800fd",
+      "name": "List pods",
+      "credentials": {
+        "kubernetesCredentialsApi": {
+          "id": "WzOp4yH1kB97w4di",
+          "name": "Kubernetes Credentials account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.aiPrompt }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        576,
+        -224
+      ],
+      "id": "c87bcf1d-de43-4fcf-8ca1-a488e6d6cc34",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "gpt-oss:20b",
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        480,
+        16
+      ],
+      "id": "b166eade-d294-499b-9b47-6fa9dfe4d20e",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "qzqL9M6pVPu9JDRT",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Анализ статуса подов\nconst items = $input.all();\n\nconsole.log('=== Parse Pod Status DEBUG ===');\nconsole.log('Items count:', items.length);\n\nlet pods = [];\n\n// HTTP Request может возвращать данные в разных форматах\nconst data = items[0]?.json;\n\n// Вариант 1: Данные в items[0].json.body.items (стандартный Kubernetes API ответ)\nif (data?.body?.items) {\n  pods = data.body.items;\n  console.log('Found pods (format 1 - body.items):', pods.length);\n}\n// Вариант 2: Данные в items[0].json как массив массивов [[pod]]\nelse if (Array.isArray(data) && data.length > 0) {\n  if (Array.isArray(data[0])) {\n    // Данные в формате [[pod1, pod2]]\n    pods = data[0];\n    console.log('Found pods (format 2 - array of arrays):', pods.length);\n  } else {\n    // Данные в формате [pod1, pod2]\n    pods = data;\n    console.log('Found pods (format 3 - flat array):', pods.length);\n  }\n}\nelse {\n  console.error('Unexpected data structure');\n  console.log('Data:', JSON.stringify(data, null, 2).substring(0, 500));\n  return [{\n    json: {\n      error: true,\n      message: 'Неверная структура данных от API',\n      receivedData: typeof data\n    }\n  }];\n}\n\nif (pods.length === 0) {\n  return [{\n    json: {\n      error: true,\n      message: 'Не найдено подов'\n    }\n  }];\n}\n\nconsole.log('Processing', pods.length, 'pods');\n\nconst podStatuses = pods.map(pod => {\n  const name = pod.metadata?.name || 'unknown';\n  const phase = pod.status?.phase || 'unknown';\n  const ready = pod.status?.conditions?.find(c => c.type === 'Ready')?.status === 'True';\n  const restarts = pod.status?.containerStatuses?.[0]?.restartCount || 0;\n  const containerState = pod.status?.containerStatuses?.[0]?.state || {};\n  const lastState = pod.status?.containerStatuses?.[0]?.lastState || {};\n  \n  console.log(`Pod: ${name}, Phase: ${phase}, Ready: ${ready}, Restarts: ${restarts}`);\n  \n  return {\n    name,\n    phase,\n    ready,\n    restarts,\n    node: pod.spec?.nodeName || 'unknown',\n    containerState,\n    lastState,\n    namespace: pod.metadata?.namespace || 'default'\n  };\n});\n\nconst unhealthyPods = podStatuses.filter(p => p.phase !== 'Running' || !p.ready);\n\nconsole.log('Healthy pods:', podStatuses.length - unhealthyPods.length);\nconsole.log('Unhealthy pods:', unhealthyPods.length);\n\nreturn podStatuses.map(pod => ({\n  json: {\n    ...pod,\n    isHealthy: pod.phase === 'Running' && pod.ready,\n    totalUnhealthy: unhealthyPods.length\n  }\n}));"
+      },
+      "id": "2435b95b-f135-430d-a1c9-b6654744b7ac",
+      "name": "Parse Pod Status1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -944,
+        -208
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.isHealthy }}"
+            }
+          ]
+        }
+      },
+      "id": "d96e7b6e-1fff-4793-ae78-4aef2fef1660",
+      "name": "Is Pod Unhealthy?1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -672,
+        -208
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "892694b0-f7c3-4382-ba89-0b5e820fc7e5",
+      "name": "Pod is Healthy1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        48
+      ],
+      "notes": "Под работает нормально"
+    },
+    {
+      "parameters": {
+        "operation": "logs",
+        "namespace": "monitoring-demo",
+        "resourceName": "={{ $json.name }}",
+        "containerName": "={{ $('List pods').item.json['0'].metadata.labels['app.kubernetes.io/name'] }}"
+      },
+      "type": "@hualvwang/n8n-nodes-k8s.kubernetes",
+      "typeVersion": 1,
+      "position": [
+        -384,
+        -224
+      ],
+      "id": "d6619cff-9b67-40d7-b6d3-cbcf7706db3c",
+      "name": "Logs pods",
+      "credentials": {
+        "kubernetesCredentialsApi": {
+          "id": "WzOp4yH1kB97w4di",
+          "name": "Kubernetes Credentials account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Анализ логов на ключевые слова - ДЛЯ ВСЕХ ПОДОВ\nconst items = $input.all();\n\nconsole.log('=== Analyze Logs DEBUG ===');\nconsole.log('Total items (pods):', items.length);\n\n// Ключевые слова для поиска ошибок\nconst errorKeywords = [\n  'error',\n  'err:',\n  'failed',\n  'failure',\n  'fatal',\n  'exception',\n  'panic',\n  'crash',\n  'permission denied',\n  'cannot',\n  'unable',\n  'refused',\n  'timeout',\n  'killed',\n  'oomkilled',\n  'exit code',\n  'segmentation fault',\n  'core dumped'\n];\n\n// Обрабатываем КАЖДЫЙ под отдельно\nconst results = items.map((item, index) => {\n  const currentItem = item.json;\n  \n  console.log(`\\n=== Processing pod ${index + 1}/${items.length} ===`);\n  \n  // Получаем логи из ТЕКУЩЕГО элемента\n  const logs = currentItem.logs || '';\n  \n  // Получаем данные о поде из ПРЕДЫДУЩЕЙ ноды \"Is Pod Unhealthy?1\"\n  let podName = 'unknown';\n  let podPhase = 'unknown';\n  let namespace = 'monitoring-demo';\n  let restarts = 0;\n  let containerState = {};\n  \n  try {\n    // Для нескольких подов используем all() и берем соответствующий индекс\n    const allPodData = $('Is Pod Unhealthy?1').all();\n    \n    if (allPodData && allPodData[index]) {\n      const podData = allPodData[index].json;\n      \n      podName = podData.name || 'unknown';\n      podPhase = podData.phase || 'unknown';\n      namespace = podData.namespace || 'monitoring-demo';\n      restarts = podData.restarts || 0;\n      containerState = podData.containerState || {};\n      \n      console.log(`Got pod data: ${podName}`);\n    }\n  } catch (e) {\n    console.log('Could not get pod data:', e.message);\n  }\n  \n  console.log('Pod Name:', podName);\n  console.log('Logs length:', logs.length);\n  \n  const lines = logs.split(/\\r?\\n/).filter(line => line.trim().length > 0);\n  const errorLines = [];\n  const errorSummary = {};\n  \n  // Анализируем каждую строку\n  for (const line of lines) {\n    const lowerLine = line.toLowerCase();\n    \n    for (const keyword of errorKeywords) {\n      if (lowerLine.includes(keyword)) {\n        errorLines.push(line);\n        \n        if (!errorSummary[keyword]) {\n          errorSummary[keyword] = 0;\n        }\n        errorSummary[keyword]++;\n        \n        break;\n      }\n    }\n  }\n  \n  console.log(`Errors found: ${errorLines.length}`);\n  \n  // Формируем результат для ЭТОГО пода\n  return {\n    json: {\n      podName: podName,\n      podPhase: podPhase,\n      namespace: namespace,\n      restarts: restarts,\n      containerState: containerState,\n      errorFound: errorLines.length > 0,\n      errorCount: errorLines.length,\n      errorSummary: errorSummary,\n      errorLines: errorLines.slice(0, 10),\n      lastErrorLine: errorLines.length > 0 ? errorLines[errorLines.length - 1] : 'Нет ошибок',\n      fullLogs: logs.substring(0, 2000),\n      timestamp: new Date().toISOString()\n    }\n  };\n});\n\nconsole.log(`\\n=== Analysis complete for ${results.length} pods ===`);\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -96,
+        -208
+      ],
+      "id": "c477dddd-d3a8-420c-9869-b2704a7a4a55",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Агрегируем все поды в ОДИН элемент\nconst items = $input.all();\n\nconsole.log('=== Aggregate DEBUG ===');\nconsole.log('Aggregating', items.length, 'items into one');\n\n// Формируем сводный промпт для ВСЕХ подов\nlet podsInfo = '';\nlet totalErrors = 0;\n\nitems.forEach((item, index) => {\n  const pod = item.json;\n  totalErrors += pod.errorCount || 0;\n  \n  podsInfo += `\\n### Под ${index + 1}: ${pod.podName}\\n`;\n  podsInfo += `- Статус: ${pod.containerState?.waiting?.reason || pod.podPhase}\\n`;\n  podsInfo += `- Рестарты: ${pod.restarts}\\n`;\n  podsInfo += `- Ошибки (${pod.errorCount}): `;\n  podsInfo += (pod.errorLines || []).slice(0, 3).join('; ');\n  podsInfo += '\\n';\n});\n\nconst aiPrompt = `Ты - эксперт по Kubernetes и диагностике проблем в контейнерах.\n\nКРИТИЧЕСКАЯ СИТУАЦИЯ: Обнаружено ${items.length} проблемных подов.\n\nДетали по каждому поду:\n${podsInfo}\n\nЗадачи:\n1. Определи ТОП-3 наиболее критичные проблемы\n2. Для каждой укажи: затронутые поды, причину, срочность\n3. Дай приоритизированный план исправления\n\nОтвет структурируй:\n- Краткая сводка\n- ТОП-3 проблемы  \n- План действий\n\nОтвет на русском, кратко, без таблиц.`;\n\n// Возвращаем ОДИН элемент для всех подов\nreturn [{\n  json: {\n    aiPrompt: aiPrompt,\n    totalPods: items.length,\n    totalErrors: totalErrors\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        112,
+        -208
+      ],
+      "id": "6174ca84-e882-43b0-802f-4e0ef0f1b79d",
+      "name": "Aggregate"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Cron Trigger - Every 5 min": {
+      "main": [
+        [
+          {
+            "node": "Init Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Init Fields": {
+      "main": [
+        [
+          {
+            "node": "Check Website",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Website": {
+      "main": [
+        [
+          {
+            "node": "Is Site Down?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Site Down?": {
+      "main": [
+        [
+          {
+            "node": "List pods",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Site is Healthy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pod Status": {
+      "main": [
+        []
+      ]
+    },
+    "Prepare AI Prompt": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Analysis (OpenAI)": {
+      "main": [
+        []
+      ]
+    },
+    "Format Telegram Message": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List pods": {
+      "main": [
+        [
+          {
+            "node": "Parse Pod Status1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Format Telegram Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Pod Status1": {
+      "main": [
+        [
+          {
+            "node": "Is Pod Unhealthy?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Pod Unhealthy?1": {
+      "main": [
+        [
+          {
+            "node": "Logs pods",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pod is Healthy1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Logs pods": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Prepare AI Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c83689fa-ccd7-4ad4-8690-208078a19515",
+  "meta": {
+    "instanceId": "f964065ac9ea69072d01b5e91d627f6f04ed8f12c8354d0bb221932e3f210f1e"
+  },
+  "id": "xLXtg8aULjcxKD88",
+  "tags": [
+    {
+      "updatedAt": "2025-11-12T21:30:53.577Z",
+      "createdAt": "2025-11-12T21:30:53.577Z",
+      "id": "Y3B8jUNvdgDEtqJR",
+      "name": "Task 2"
+    }
+  ]
+}

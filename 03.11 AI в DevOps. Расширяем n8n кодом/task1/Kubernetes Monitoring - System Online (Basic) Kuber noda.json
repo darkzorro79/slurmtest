@@ -1,0 +1,299 @@
+{
+  "name": "Kubernetes Monitoring - System Online (Basic) Kuber noda",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "id": "fed62de1-aa97-4a22-8c41-597e00a7bdc2",
+      "name": "Cron Trigger - Every 5 min",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -432,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://testn8n.otservice.ru",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "7f1b7baa-19e7-4849-9c9e-bdb5897a7ae6",
+      "name": "Check Website",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        64,
+        112
+      ],
+      "alwaysOutputData": false,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.data }}",
+              "operation": "notContains",
+              "value2": "SYSTEM ONLINE"
+            }
+          ]
+        }
+      },
+      "id": "141d86c9-2ac5-4396-9135-435badd8b7b6",
+      "name": "Is Site Down?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        272,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "207708913",
+        "text": "={{ $json.detailedMessage }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "disable_web_page_preview": true,
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "a029d2f3-122a-40dc-9b21-16bbc08c676a",
+      "name": "Send Telegram Alert",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        48
+      ],
+      "webhookId": "d0a9597e-5c3d-40d7-9bb7-b53e332f2f66",
+      "credentials": {
+        "telegramApi": {
+          "id": "yEZ29UQTCT7zSQyt",
+          "name": "Telegram account"
+        }
+      },
+      "notes": "Замените YOUR_TELEGRAM_CHAT_ID на ваш Chat ID"
+    },
+    {
+      "parameters": {},
+      "id": "f34d5b7d-b8a8-4919-a908-e25d653e99e3",
+      "name": "Site is Healthy",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        496,
+        288
+      ],
+      "notes": "Сайт работает нормально - ничего не делаем"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5b366daa-319d-4460-9403-56462103427b",
+              "name": "chatid",
+              "value": "=frodo{{ $execution.id }}",
+              "type": "string"
+            },
+            {
+              "id": "4327ebad-f426-4db6-9a81-dde828aecd42",
+              "name": "prompt",
+              "value": "Check if the website is up. Return ONLY JSON with fields: website_up (boolean) and message (string).",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "dotNotation": true
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -160,
+        112
+      ],
+      "id": "261fe27f-f08d-439b-88b0-366a48f77349",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "https://10.190.46.115:6443/api/v1/namespaces/monitoring-demo/pods",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "labelSelector",
+              "value": "app.kubernetes.io/name=system-online"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6Imx1cS1qX1VWOThTaDRvcFpCY21hWWY2Q3luLWlnSExFNU1GN2dNNlhmRHcifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJtb25pdG9yaW5nLWRlbW8iLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlY3JldC5uYW1lIjoibjhuLW1vbml0b3ItdG9rZW4iLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoibjhuLW1vbml0b3IiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiIxNDFkMDUwYy1iY2MxLTRmMTEtOTZiNy05OGFlMjNjODRiODgiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6bW9uaXRvcmluZy1kZW1vOm44bi1tb25pdG9yIn0.FyN_CS6qDYPSc3m23JzjF2gy-raeVv7IJ1I4sRTFWl6IQ77RXThIcSigOY6-XBgydLtxHxWW_sAFbyayKukyPbH4MIgPHzPCKoOp1lBwA7x8J-EH9qcavDFWJdA0eRZrU_-gNJnrCof8_kzFpmPXJFtEluY6d7INdffKjdBFAimF3dkQh4I8ge8Ud08VdqklbQHFTuJq0vhYywue2QnV0yb4_sE5T8KMraIgfjyjYJEIfzEH0dZ11IgHHJg35rPXnoESV-Afq7USkmxyi8FIQrngjNLrNFFBLjeI05BJyov5qVt8uot0xu2zKI8qgoaTZ_48RUkHZsm2vNNDwIaFgA"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        928,
+        288
+      ],
+      "id": "07f3b465-4dc8-4aec-a97d-5d57bcb1510a",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "list",
+        "namespace": "monitoring-demo"
+      },
+      "type": "@hualvwang/n8n-nodes-k8s.kubernetes",
+      "typeVersion": 1,
+      "position": [
+        480,
+        16
+      ],
+      "id": "6c3156ed-1e89-4d54-b826-a963a5bba097",
+      "name": "List pods",
+      "credentials": {
+        "kubernetesCredentialsApi": {
+          "id": "WzOp4yH1kB97w4di",
+          "name": "Kubernetes Credentials account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Получаем данные от HTTP Request\nconst items = $input.all();\n\nconsole.log('=== DEBUG ===');\nconsole.log('Items count:', items.length);\n\n// HTTP Request возвращает данные в разных форматах\nlet pods = [];\n\n// Вариант 1: Данные в items[0].json.body.items (старый формат)\nif (items[0] && items[0].json && items[0].json.body && items[0].json.body.items) {\n  pods = items[0].json.body.items;\n  console.log('Found pods (format 1):', pods.length);\n} \n// Вариант 2: Данные напрямую в items[0].json как массив массивов\nelse if (items[0] && items[0].json && Array.isArray(items[0].json)) {\n  // Данные в формате [[pod1, pod2]]\n  if (Array.isArray(items[0].json[0])) {\n    pods = items[0].json[0];\n    console.log('Found pods (format 2):', pods.length);\n  } else {\n    pods = items[0].json;\n    console.log('Found pods (format 3):', pods.length);\n  }\n} \n// Вариант 3: Данные в items как массив массивов\nelse if (items[0] && Array.isArray(items[0]) && Array.isArray(items[0][0])) {\n  pods = items[0][0];\n  console.log('Found pods (format 4):', pods.length);\n}\nelse {\n  console.error('Unexpected data structure');\n  console.log('Data:', JSON.stringify(items, null, 2));\n  return [{\n    json: {\n      status: 'error',\n      message: '⛔ Неверная структура данных',\n      detailedMessage: '⛔ *Ошибка парсинга*\\\\n\\\\nНе найдена ожидаемая структура данных от API',\n      podCount: 0\n    }\n  }];\n}\n\nif (pods.length === 0) {\n  return [{\n    json: {\n      status: 'error',\n      message: '⛔ Не найдено ни одного пода',\n      detailedMessage: '⛔ *Критическая ошибка*\\\\n\\\\nНе найдено ни одного пода для приложения system-online в namespace monitoring-demo',\n      podCount: 0\n    }\n  }];\n}\n\nconsole.log('Processing', pods.length, 'pods');\n\n// Анализируем статус каждого пода\nconst podStatuses = pods.map(pod => {\n  const name = pod.metadata.name;\n  const phase = pod.status.phase;\n  const ready = pod.status.conditions?.find(c => c.type === 'Ready')?.status === 'True';\n  const restarts = pod.status.containerStatuses?.[0]?.restartCount || 0;\n  \n  console.log(`Pod: ${name}, Phase: ${phase}, Ready: ${ready}`);\n  \n  return {\n    name,\n    phase,\n    ready,\n    restarts,\n    node: pod.spec.nodeName,\n    startTime: pod.status.startTime,\n    ip: pod.status.podIP\n  };\n});\n\nconst healthyPods = podStatuses.filter(p => p.phase === 'Running' && p.ready);\nconst unhealthyPods = podStatuses.filter(p => p.phase !== 'Running' || !p.ready);\n\nconsole.log('Healthy:', healthyPods.length, 'Unhealthy:', unhealthyPods.length);\n\nlet statusMessage = 'Все поды работают нормально';\nlet statusEmoji = '✅';\n\nif (unhealthyPods.length > 0) {\n  statusEmoji = '⚠️';\n  statusMessage = `Обнаружены проблемы с подами`;\n} else if (healthyPods.length === 0) {\n  statusEmoji = '🔴';\n  statusMessage = 'Ни один под не работает!';\n}\n\nlet detailedMessage = `${statusEmoji} *Status Report: system-online*\\\\n\\\\n`;\ndetailedMessage += `📊 Всего подов: ${pods.length}\\\\n`;\ndetailedMessage += `✅ Healthy: ${healthyPods.length}\\\\n`;\ndetailedMessage += `⚠️ Unhealthy: ${unhealthyPods.length}\\\\n`;\ndetailedMessage += `🕐 ${new Date().toLocaleString('ru-RU', {timeZone: 'Europe/Moscow'})}\\\\n\\\\n`;\n\nif (unhealthyPods.length > 0) {\n  detailedMessage += `*🚨 Проблемные поды:*\\\\n\\\\n`;\n  unhealthyPods.forEach(pod => {\n    detailedMessage += `📦 \\`${pod.name}\\`\\\\n`;\n    detailedMessage += `   └ Phase: *${pod.phase}*\\\\n`;\n    detailedMessage += `   └ Ready: ${pod.ready ? '✅ Yes' : '❌ No'}\\\\n`;\n    detailedMessage += `   └ Restarts: ${pod.restarts}\\\\n`;\n    detailedMessage += `   └ Node: ${pod.node}\\\\n\\\\n`;\n  });\n} else {\n  detailedMessage += `*✅ Все поды здоровы*\\\\n\\\\n`;\n  healthyPods.forEach(pod => {\n    detailedMessage += `• \\`${pod.name}\\` на ${pod.node}\\\\n`;\n  });\n}\n\nreturn [{\n  json: {\n    status: unhealthyPods.length > 0 ? 'unhealthy' : 'healthy',\n    message: statusMessage,\n    detailedMessage: detailedMessage,\n    totalPods: pods.length,\n    healthyPods: healthyPods.length,\n    unhealthyPods: unhealthyPods.length,\n    pods: podStatuses,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "8b76bca9-fe7b-438a-b4c3-04163febaf6a",
+      "name": "Parse Pod Status1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        736,
+        16
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Cron Trigger - Every 5 min": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Website": {
+      "main": [
+        [
+          {
+            "node": "Is Site Down?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Site Down?": {
+      "main": [
+        [
+          {
+            "node": "List pods",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Site is Healthy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Check Website",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        []
+      ]
+    },
+    "List pods": {
+      "main": [
+        [
+          {
+            "node": "Parse Pod Status1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Pod Status1": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "933a8f83-d92c-4602-84a3-6ff13ce9e8c8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f964065ac9ea69072d01b5e91d627f6f04ed8f12c8354d0bb221932e3f210f1e"
+  },
+  "id": "QFva4s5TQy9rLhtJ",
+  "tags": []
+}
