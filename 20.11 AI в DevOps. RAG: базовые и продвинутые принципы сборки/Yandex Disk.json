@@ -1,0 +1,515 @@
+{
+  "name": "Yandex Disk",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -368,
+        48
+      ],
+      "id": "a0982cd9-19fd-4de3-bb3e-b6ed87ab2366",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "_embedded.items",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        64,
+        48
+      ],
+      "id": "f148aeb6-b7ce-4a66-8827-6b0449c6eea1",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "url": "=https://cloud-api.yandex.net/v1/disk/resources?path=n8n-pentest/{{ $json.name }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "OAuth y0__xCGn6MyGNuWAyCY3uelFTCS05uECPubCr81kimyqftEzfq4Jed_cC9H"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        240,
+        48
+      ],
+      "id": "38294acd-3800-40d0-9d92-1de8efbac99e",
+      "name": "Get links"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.file }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        448,
+        48
+      ],
+      "id": "975f3ce7-d72a-4da1-9fc7-deb34c2da1a1",
+      "name": "Download"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        688,
+        48
+      ],
+      "id": "9dfcb0cd-28ed-4738-b52b-ec8a457eee02",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Every time you answer a question please go the the vectorStore tool to get the data for the answer. Please be friendly, you can add some jokes and emotions when answering."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        560,
+        1008
+      ],
+      "id": "cc231693-dc18-4cbd-98c5-6fa2c0a71d36",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "tableName": "yandex_rag.n8n_chat_histories_rag",
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        656,
+        1232
+      ],
+      "id": "33effa11-5897-4b7f-8ea1-2cb936fdfc36",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "JI76007KzIyDwA1w",
+          "name": "SB Yandex_rag"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        304,
+        1008
+      ],
+      "id": "097a8bcd-c40b-4200-998a-717203c90ac1",
+      "name": "When chat message received",
+      "webhookId": "04194c99-b986-47a7-a923-e37350f9f9d3"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "vectorStore",
+        "toolDescription": "This is the tool where you can get all the store data.",
+        "tableName": {
+          "__rl": true,
+          "value": "documents_yandex_rag",
+          "mode": "list",
+          "cachedResultName": "documents_yandex_rag"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.1,
+      "position": [
+        848,
+        1248
+      ],
+      "id": "b70a9972-c7ce-40f4-a6df-0c5c7f6fd7ec",
+      "name": "Supabase Vector Store",
+      "credentials": {
+        "supabaseApi": {
+          "id": "ugWeSbFfhlDKDwp5",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        816,
+        464
+      ],
+      "id": "5200d2a6-ee95-48e5-ad1e-a92a36c5c259",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "chunkSize": 600,
+        "chunkOverlap": 50,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        800,
+        624
+      ],
+      "id": "62b1dd16-47ff-4680-b007-35f9141bb9ac",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "content": "## Yandex.Disk\n",
+        "height": 840,
+        "width": 1660,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        0
+      ],
+      "id": "7206704f-f615-4ffd-8266-6e1dd5c9a376",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Assistant",
+        "height": 840,
+        "width": 1000,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        208,
+        848
+      ],
+      "id": "7dd51d12-c052-469d-883b-0896b2482cf4",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": {
+          "__rl": true,
+          "value": "documents_yandex_rag",
+          "mode": "list",
+          "cachedResultName": "documents_yandex_rag"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.1,
+      "position": [
+        768,
+        272
+      ],
+      "id": "e037b993-146b-482a-b575-afbc00b181ff",
+      "name": "Supabase Vector Store2",
+      "credentials": {
+        "supabaseApi": {
+          "id": "ugWeSbFfhlDKDwp5",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://cloud-api.yandex.net/v1/disk/resources?path=n8n-pentest",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "OAuth y0__xCGn6MyGNuWAyCY3uelFTCS05uECPubCr81kimyqftEzfq4Jed_cC9H"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -144,
+        48
+      ],
+      "id": "9660484b-db6f-4d33-a3c5-c88a37f72279",
+      "name": "Get document list from Yandex Disk"
+    },
+    {
+      "parameters": {
+        "model": "bge-m3:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        640,
+        512
+      ],
+      "id": "c1759ca8-0126-441b-bc4d-cebb08e8b581",
+      "name": "Embeddings Ollama",
+      "credentials": {
+        "ollamaApi": {
+          "id": "qzqL9M6pVPu9JDRT",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gpt-oss:20b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        432,
+        1216
+      ],
+      "id": "6470a0db-ba79-43e2-b565-6b5642ec186e",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "qzqL9M6pVPu9JDRT",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "bge-m3:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        848,
+        1424
+      ],
+      "id": "c8d0e370-6012-4ed5-bfda-2f800fcb4a25",
+      "name": "Embeddings Ollama1",
+      "credentials": {
+        "ollamaApi": {
+          "id": "qzqL9M6pVPu9JDRT",
+          "name": "Ollama account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get document list from Yandex Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Get links",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get links": {
+      "main": [
+        [
+          {
+            "node": "Download",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Supabase Vector Store2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Supabase Vector Store2",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get document list from Yandex Disk": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store2",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a1d380bd-d870-4f11-be1c-ab9008fbc930",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f964065ac9ea69072d01b5e91d627f6f04ed8f12c8354d0bb221932e3f210f1e"
+  },
+  "id": "IfvhPRFwrwlA4R6m",
+  "tags": []
+}
